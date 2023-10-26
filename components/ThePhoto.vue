@@ -251,6 +251,7 @@ export default {
 
 
   .my-form {
+
     margin-top: 10px;
     background-color: #000;
     /* Fond noir pour un style sombre */

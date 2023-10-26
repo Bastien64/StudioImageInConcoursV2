@@ -65,6 +65,7 @@
             <form @submit.prevent="addDate" style="margin-bottom: 50px; background-color: rgba(128, 128, 128, 0.226);">
                 <div class="form-group">
                     <h1>DATE DE DEBUT ET FIN DE L'ENVOI DES PHOTOS</h1>
+                    <h2 style="color: red; font-weight: 800;">Si une date existe, veuillez la supprimer en premier, avant d'en ajouter une nouvelle</h2>
                     <p v-for="date in dates" >Date du concours actuel <strong>{{ date.Datedebut }} </strong>du <strong>{{ date.Datedefin }}</strong></p>
                     <label for="Datedebut">Date de début</label>
                     <input type="date" id="Datedebut" v-model="newDate.Datedebut" class="form-control" required>
