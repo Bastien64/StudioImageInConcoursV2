@@ -62,10 +62,10 @@
         <button class="btn btn-primary" @click="showContest2 = !showContest2">Concours Type 2</button>
         <!-- Code à afficher lorsque le bouton est cliqué -->
         <div v-if="showContest2" class="collaps2">
-            <form @submit.prevent="addDate" style="margin-bottom: 50px; background-color: rgba(128, 128, 128, 0.226);">
+            <form @submit.prevent="addDate" style="margin-bottom: 50px; background-color: rgba(128, 128, 128, 0.226);" class="date">
                 <div class="form-group">
-                    <h1>DATE DE DEBUT ET FIN DE L'ENVOI DES PHOTOS</h1>
-                    <h2 style="color: red; font-weight: 800;">Si une date existe, veuillez la supprimer en premier, avant d'en ajouter une nouvelle</h2>
+                    <h3>DATE DE DEBUT ET FIN DE L'ENVOI DES PHOTOS</h3>
+                    <h5 style="color: red; font-weight: 800;">Si une date existe, veuillez la supprimer en premier, avant d'en ajouter une nouvelle</h5>
                     <p v-for="date in dates" >Date du concours actuel <strong>{{ date.Datedebut }} </strong>du <strong>{{ date.Datedefin }}</strong></p>
                     <label for="Datedebut">Date de début</label>
                     <input type="date" id="Datedebut" v-model="newDate.Datedebut" class="form-control" required>
@@ -74,7 +74,7 @@
                     <label for="Datedefin">Date de fin</label>
                     <input type="date" id="Datedefin" v-model="newDate.Datedefin" class="form-control" required>
                 </div>
-                <button type="submit" class="btn btn-success">Ajouter la date</button>
+                <button type="submit" class="btn btn-success" style="margin-left: 10px; margin-right: 10px;">Ajouter la date</button>
                 <button type="button" class="btn btn-danger" @click="deleteAllDates">Supprimer toutes les dates</button>
             </form>
             <!-- Boucle sur les photo2s pour afficher chaque carte -->
@@ -292,6 +292,10 @@ export default {
 </script>
 
 <style scoped>
+
+.date {
+    width: 50%;
+}
 .collaps {
     display: flex;
     flex-direction: column;
