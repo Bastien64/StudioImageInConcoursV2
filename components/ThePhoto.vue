@@ -80,7 +80,7 @@ export default {
     },*/
   },
   mounted() {
-    axios.get('http://127.0.0.1:5000/date')
+    axios.get('https://studiophotov2-d849983bf69e.herokuapp.com/date')
       .then(response => {
         this.dates = response.data;
         console.log(this.dates);

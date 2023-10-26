@@ -142,7 +142,7 @@ export default {
             .catch(error => {
                 console.error('Error:', error);
             });
-        axios.get('http://127.0.0.1:5000/date')
+        axios.get('https://studiophotov2-d849983bf69e.herokuapp.com/date')
             .then(response => {
                 this.loading = false;
                 this.dates = response.data;
@@ -165,7 +165,7 @@ export default {
     methods: {
         deleteAllDates() {
     // Envoyez une requête à l'API pour supprimer toutes les dates
-    axios.delete('http://127.0.0.1:5000/date')
+    axios.delete('https://studiophotov2-d849983bf69e.herokuapp.com/date')
       .then(response => {
         console.log(response.data);
         this.updateMessage = "Toutes les dates ont été supprimées avec succès";
@@ -179,7 +179,7 @@ export default {
   },
         addDate() {
             // Envoi de la nouvelle date à l'API
-            axios.post('http://127.0.0.1:5000/date', this.newDate)
+            axios.post('https://studiophotov2-d849983bf69e.herokuapp.com/date', this.newDate)
                 .then(response => {
                     console.log(response.data);
                     alert("Date ajoutée avec succès");
