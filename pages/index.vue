@@ -20,10 +20,6 @@ div {
     height: 5px;
     background-color: rgba(250, 143, 13, 0.678)
 }
-.photo {
-    margin-top: 5vh;
-    margin-left: 5%;
-}
 
 .cookies {
     border-radius: 10%;
