@@ -24,12 +24,19 @@
         <label for="Link">Image :</label>
         <input type="file" id="Link" class="form-control" @change="onFileChange" required>
       </div>
+      <p>L'envoi du formulaire peut prendre 10 secondes</p>
       <button type="submit" class="btn btn-light">Envoyer</button>
     </form>
+
   </div>
-  <div  class="row">
+  <div v-if="showSuccessAlert" class="custom-alert success-alert">
+      <p>Photo ajoutée avec succès.</p>
+      <button @click="hideSuccessAlert">Fermer</button>
+    </div>
+  <div class="row">
     <div v-for="photo in photosAccueil" class="card" :key="photo.id">
-      <NuxtLink :to="`/photovote/?id=${photo.id}`"><img :src="getPhotoURL(photo.Photo)" class="card-img-top" alt="Photo"> </NuxtLink>
+      <NuxtLink :to="`/photovote/?id=${photo.id}`"><img :src="getPhotoURL(photo.Photo)" class="card-img-top" alt="Photo">
+      </NuxtLink>
 
     </div>
   </div>
@@ -51,7 +58,9 @@ export default {
         Email: '',
         Telephone: '',
         Link: null,
+
       },
+      showSuccessAlert: false, // Ajout d'une variable pour gérer l'affichage de l'alerte de succès
     };
   },
   mounted() {
@@ -103,8 +112,7 @@ export default {
       try {
         const response = await axios.post('https://studiophotov2-d849983bf69e.herokuapp.com/photo', formData);
         if (response.data === 'success') {
-          alert('Photo ajoutée avec succès.');
-          // Réinitialisez le formulaire si nécessaire
+          this.showSuccessAlert = true; // Afficher l'alerte de succès          // Réinitialisez le formulaire si nécessaire
           // this.formData = { Nom: '', Prenom: '', Email: '', Telephone: '', Link: null };
         } else {
           alert('Une erreur s\'est produite lors de l\'ajout de la photo.');
@@ -114,12 +122,51 @@ export default {
         alert('Une erreur s\'est produite lors de la requête.');
       }
     },
+    hideSuccessAlert() {
+      this.showSuccessAlert = false; // Masquer l'alerte de succès
+    },
   },
 };
 </script>
 <style scoped>
 @media only screen and (min-width: 767px) {
-.card {
+
+  .success-alert {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(255, 87, 51, 0.9);
+    /* Arrière-plan semi-transparent avec la couleur d'Halloween */
+    color: #fff;
+    /* Texte blanc */
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(5px);
+    /* Ajout de l'effet de flou */
+  }
+
+  .success-alert button {
+    background-color: #2b2a2a;
+    /* Rouge foncé - couleur d'Halloween */
+    color: #fff;
+    /* Texte blanc */
+    border: none;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin-top: 20px;
+    /* Augmenté pour l'aspect d'Halloween */
+    cursor: pointer;
+    border-radius: 5px;
+  }
+
+
+  .card {
     border: none !important;
     margin-top: 10px;
     width: auto;
@@ -140,68 +187,70 @@ export default {
     z-index: 1;
   }
 
-.container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  .container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 
+  }
+
+  .center {
+    text-align: center;
+  }
+
+  .btn-halloween {
+    background-color: #ff6600;
+    /* Couleur orange Halloween */
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 24px;
+    /* Taille de la police */
+    font-weight: bold;
+    text-transform: uppercase;
+    cursor: pointer;
+    box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.5);
+    /* Ombre */
+    transition: background-color 0.3s;
+  }
+
+  .btn-halloween:hover {
+    background-color: #ff3300;
+    /* Couleur orange Halloween plus foncée au survol */
+  }
+
+
+  .my-form {
+    margin-top: 10px;
+    background-color: #000;
+    /* Fond noir pour un style sombre */
+    color: #ff6600;
+    /* Texte orange Halloween */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.5);
+  }
+
+  .my-form .form-group label {
+    font-weight: bold;
+    color: #ff6600;
+  }
+
+  .my-form .form-control {
+    background-color: #222;
+    /* Fond sombre pour les champs de formulaire */
+    color: #fff;
+    border: 2px solid #ff6600;
+  }
+
+  .my-form .form-control:focus {
+    border-color: #ff3300;
+    /* Couleur de bordure orange au focus */
+  }
 }
 
-.center {
-  text-align: center;
-}
-
-.btn-halloween {
-  background-color: #ff6600;
-  /* Couleur orange Halloween */
-  color: #fff;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  font-size: 24px;
-  /* Taille de la police */
-  font-weight: bold;
-  text-transform: uppercase;
-  cursor: pointer;
-  box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.5);
-  /* Ombre */
-  transition: background-color 0.3s;
-}
-
-.btn-halloween:hover {
-  background-color: #ff3300;
-  /* Couleur orange Halloween plus foncée au survol */
-}
-
-
-.my-form {
-  margin-top: 10px;
-  background-color: #000;
-  /* Fond noir pour un style sombre */
-  color: #ff6600;
-  /* Texte orange Halloween */
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.5);
-}
-
-.my-form .form-group label {
-  font-weight: bold;
-  color: #ff6600;
-}
-
-.my-form .form-control {
-  background-color: #222;
-  /* Fond sombre pour les champs de formulaire */
-  color: #fff;
-  border: 2px solid #ff6600;
-}
-
-.my-form .form-control:focus {
-  border-color: #ff3300;
-  /* Couleur de bordure orange au focus */
-}}
 @media only screen and (max-width: 767px) {
   .card {
     border: none !important;
@@ -224,67 +273,66 @@ export default {
     z-index: 1;
   }
 
-.container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  .container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 
-}
+  }
 
-.center {
-  text-align: center;
-}
+  .center {
+    text-align: center;
+  }
 
-.btn-halloween {
-  background-color: #ff6600;
-  /* Couleur orange Halloween */
-  color: #fff;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  font-size: 24px;
-  /* Taille de la police */
-  font-weight: bold;
-  text-transform: uppercase;
-  cursor: pointer;
-  box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.5);
-  /* Ombre */
-  transition: background-color 0.3s;
-}
+  .btn-halloween {
+    background-color: #ff6600;
+    /* Couleur orange Halloween */
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 24px;
+    /* Taille de la police */
+    font-weight: bold;
+    text-transform: uppercase;
+    cursor: pointer;
+    box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.5);
+    /* Ombre */
+    transition: background-color 0.3s;
+  }
 
-.btn-halloween:hover {
-  background-color: #ff3300;
-  /* Couleur orange Halloween plus foncée au survol */
-}
+  .btn-halloween:hover {
+    background-color: #ff3300;
+    /* Couleur orange Halloween plus foncée au survol */
+  }
 
 
-.my-form {
-  margin-top: 10px;
-  background-color: #000;
-  /* Fond noir pour un style sombre */
-  color: #ff6600;
-  /* Texte orange Halloween */
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.5);
-}
+  .my-form {
+    margin-top: 10px;
+    background-color: #000;
+    /* Fond noir pour un style sombre */
+    color: #ff6600;
+    /* Texte orange Halloween */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.5);
+  }
 
-.my-form .form-group label {
-  font-weight: bold;
-  color: #ff6600;
-}
+  .my-form .form-group label {
+    font-weight: bold;
+    color: #ff6600;
+  }
 
-.my-form .form-control {
-  background-color: #222;
-  /* Fond sombre pour les champs de formulaire */
-  color: #fff;
-  border: 2px solid #ff6600;
-}
+  .my-form .form-control {
+    background-color: #222;
+    /* Fond sombre pour les champs de formulaire */
+    color: #fff;
+    border: 2px solid #ff6600;
+  }
 
-.my-form .form-control:focus {
-  border-color: #ff3300;
-  /* Couleur de bordure orange au focus */
-}
-}
-</style>
+  .my-form .form-control:focus {
+    border-color: #ff3300;
+    /* Couleur de bordure orange au focus */
+  }
+}</style>
