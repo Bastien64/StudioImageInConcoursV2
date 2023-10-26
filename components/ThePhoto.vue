@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="center">
-      <button class="btn btn-halloween" @click="showForm = true"><!--{{ buttonLabel }}--> PARTICIPER AU CONCOURS PHOTO</button>
+      <button class="btn btn-halloween" @click="showForm = true"><!--{{ buttonLabel }}--> PARTICIPEZ AU CONCOURS PHOTO</button>
         </div>
     <form v-if="showForm" @submit.prevent="submitForm" class="my-form">
       <div class="form-group">
