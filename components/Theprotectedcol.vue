@@ -62,9 +62,23 @@
         <button class="btn btn-primary" @click="showContest2 = !showContest2">Concours Type 2</button>
         <!-- Code à afficher lorsque le bouton est cliqué -->
         <div v-if="showContest2" class="collaps2">
+            <form @submit.prevent="addDate" style="margin-bottom: 50px; background-color: rgba(128, 128, 128, 0.226);">
+                <div class="form-group">
+                    <h1>DATE DE DEBUT ET FIN DE L'ENVOI DES PHOTOS</h1>
+                    <p v-for="date in dates" >Date du concours actuel <strong>{{ date.Datedebut }} </strong>du <strong>{{ date.Datedefin }}</strong></p>
+                    <label for="Datedebut">Date de début</label>
+                    <input type="date" id="Datedebut" v-model="newDate.Datedebut" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="Datedefin">Date de fin</label>
+                    <input type="date" id="Datedefin" v-model="newDate.Datedefin" class="form-control" required>
+                </div>
+                <button type="submit" class="btn btn-success">Ajouter la date</button>
+                <button type="button" class="btn btn-danger" @click="deleteAllDates">Supprimer toutes les dates</button>
+            </form>
             <!-- Boucle sur les photo2s pour afficher chaque carte -->
-            <div class="card" v-for="photo2 in photos2" :key="photo2.id">
-                <img :src="getPhotoURL(photo2.Photo)" class="card-img-top" alt="Photo2" style="width: 100%;">
+            <div class="card" v-for="photo2 in photos2" :key="photo2.id" style="width: 200px;">
+                <img :src="getPhotoURL(photo2.Photo)" class="card-img-top" alt="Photo2">
                 <div class="card-body">
                     <h5 class="card-title">{{ photo2.Nom }} {{ photo2.Prenom }}</h5>
                     <p class="card-text">
@@ -81,7 +95,7 @@
             </div>
             <div>
                 <button class="btn btn-danger disable" @click="downloadCsv2">Télécharger base de données des
-                Votants</button>
+                    Votants</button>
             </div>
         </div>
 
@@ -102,6 +116,11 @@ export default {
             Image: null,
             photos2: [],// Les données seront stockées ici,
             photos: [],
+            dates: [],
+            newDate: {
+                Datedebut: "",
+                Datedefin: ""
+            },
             updateMessage: "", // Ajout de la variable pour le message de mise à jour
         };
     },
@@ -123,6 +142,15 @@ export default {
             .catch(error => {
                 console.error('Error:', error);
             });
+        axios.get('http://127.0.0.1:5000/date')
+            .then(response => {
+                this.loading = false;
+                this.dates = response.data;
+                console.log(this.dates)
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
         axios.get('https://studiophotov2-d849983bf69e.herokuapp.com/photo')
             .then(response => {
                 this.loading = false;
@@ -135,6 +163,36 @@ export default {
 
     },
     methods: {
+        deleteAllDates() {
+    // Envoyez une requête à l'API pour supprimer toutes les dates
+    axios.delete('http://127.0.0.1:5000/date')
+      .then(response => {
+        console.log(response.data);
+        this.updateMessage = "Toutes les dates ont été supprimées avec succès";
+        alert("Toutes les dates ont été supprimées avec succès");
+        // Rechargez les données des dates si nécessaire
+      })
+      .catch(error => {
+        console.error(error);
+        this.updateMessage = "Erreur lors de la suppression de toutes les dates";
+      });
+  },
+        addDate() {
+            // Envoi de la nouvelle date à l'API
+            axios.post('http://127.0.0.1:5000/date', this.newDate)
+                .then(response => {
+                    console.log(response.data);
+                    alert("Date ajoutée avec succès");
+                    this.updateMessage = "Date ajoutée avec succès";
+                    this.newDate.Datedebut = "";
+                    this.newDate.Datedefin = "";
+                    // Rechargez les données des dates si nécessaire
+                })
+                .catch(error => {
+                    console.error(error);
+                    this.updateMessage = "Erreur lors de l'ajout de la date";
+                });
+        },
         changeCategoryStatus(photo2) {
             // Mettre à jour la catégorie de la photo dans la base de données
             axios.post(`https://studiophotov2-d849983bf69e.herokuapp.com/photo/update_categorie/${photo2.id}`, { nouvelle_categorie_id: photo2.Categorie_id })
@@ -232,7 +290,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .collaps {
     display: flex;
     flex-direction: column;
@@ -244,13 +302,17 @@ export default {
 
 .collaps2 {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     ;
     width: 70%;
     margin-left: auto;
     margin-right: auto;
 }
 
+img {
+    max-width: 200px;
+    height: auto;
+}
 
 .pleft {
     margin-left: 5px;

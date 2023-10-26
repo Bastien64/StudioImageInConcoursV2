@@ -1,8 +1,8 @@
 <template>
   <div class="container">
     <div class="center">
-      <button class="btn btn-halloween" @click="showForm = true">Participer au concours Halloween !</button>
-    </div>
+      <button class="btn btn-halloween" @click="showForm = true"><!--{{ buttonLabel }}--> PARTICIPER AU CONCOURS PHOTO</button>
+        </div>
     <form v-if="showForm" @submit.prevent="submitForm" class="my-form">
       <div class="form-group">
         <label for="Nom">Nom :</label>
@@ -50,6 +50,7 @@ import axios from 'axios';
 export default {
   data() {
     return {
+            dates:[],
       showForm: false, // Initialisé à false pour masquer le formulaire
       photosAccueil: [], // Assurez-vous que cette ligne existe
       formData: {
@@ -63,7 +64,30 @@ export default {
       showSuccessAlert: false, // Ajout d'une variable pour gérer l'affichage de l'alerte de succès
     };
   },
+  computed: {
+    showForm() {
+      const today = new Date();
+      const todayUTC = new Date(today.toISOString());
+
+      return this.dates.some(date => {
+        const startDate = new Date(date.Datedebut);
+        const endDate = new Date(date.Datedefin);
+        return todayUTC >= startDate && todayUTC <= endDate;
+      });
+    },
+    /*buttonLabel() {
+      return this.showForm ? "Envoyez votre Photos" : "Votez pour votre photo préférée !";
+    },*/
+  },
   mounted() {
+    axios.get('http://127.0.0.1:5000/date')
+      .then(response => {
+        this.dates = response.data;
+        console.log(this.dates);
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
     axios.get('https://studiophotov2-d849983bf69e.herokuapp.com/photo')
       .then(response => {
         this.loading = false;
@@ -128,6 +152,10 @@ export default {
   },
 };
 </script>
+
+
+
+
 <style scoped>
 @media only screen and (min-width: 767px) {
 
