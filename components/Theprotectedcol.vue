@@ -62,8 +62,14 @@
         <button class="btn btn-primary" @click="showContest2 = !showContest2">Concours Type 2</button>
         <!-- Code à afficher lorsque le bouton est cliqué -->
         <div v-if="showContest2" class="collaps2">
-            <form @submit.prevent="addDate" style="margin-bottom: 50px; background-color: rgba(128, 128, 128, 0.226);"
+            <a class="btn btn-primary" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+    Activer le concours Type 2 en ajoutant une date
+  </a>
+  <div class="collapse" id="collapseExample">
+  <div class="card card-body">
+    <form @submit.prevent="addDate" style="margin-bottom: 50px; background-color: rgba(128, 128, 128, 0.226);"
                 class="date">
+                
                 <div class="form-group">
                     <h3>DATE DE DEBUT ET FIN DE L'ENVOI DES PHOTOS</h3>
                     <h5 style="color: red; font-weight: 800;">Si une date existe, veuillez la supprimer en premier, avant
@@ -80,7 +86,9 @@
                 <button type="submit" class="btn btn-success" style="margin-left: 10px; margin-right: 10px;">Ajouter la
                     date</button>
                 <button type="button" class="btn btn-danger" @click="deleteAllDates">Supprimer toutes les dates</button>
-            </form>
+            </form>  </div>
+</div>
+
             <!-- Boucle sur les photo2s pour afficher chaque carte -->
             <div class="cardflex">
                 <div class="card" v-for="photo2 in photos2" :key="photo2.id" style="width: 200px;">
