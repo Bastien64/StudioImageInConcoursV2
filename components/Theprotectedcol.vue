@@ -62,11 +62,14 @@
         <button class="btn btn-primary" @click="showContest2 = !showContest2">Concours Type 2</button>
         <!-- Code à afficher lorsque le bouton est cliqué -->
         <div v-if="showContest2" class="collaps2">
-            <form @submit.prevent="addDate" style="margin-bottom: 50px; background-color: rgba(128, 128, 128, 0.226);" class="date">
+            <form @submit.prevent="addDate" style="margin-bottom: 50px; background-color: rgba(128, 128, 128, 0.226);"
+                class="date">
                 <div class="form-group">
                     <h3>DATE DE DEBUT ET FIN DE L'ENVOI DES PHOTOS</h3>
-                    <h5 style="color: red; font-weight: 800;">Si une date existe, veuillez la supprimer en premier, avant d'en ajouter une nouvelle</h5>
-                    <p v-for="date in dates" >Date du concours actuel <strong>{{ date.Datedebut }} </strong>du <strong>{{ date.Datedefin }}</strong></p>
+                    <h5 style="color: red; font-weight: 800;">Si une date existe, veuillez la supprimer en premier, avant
+                        d'en ajouter une nouvelle</h5>
+                    <p v-for="date in dates">Date du concours actuel <strong>{{ date.Datedebut }} </strong>du <strong>{{
+                        date.Datedefin }}</strong></p>
                     <label for="Datedebut">Date de début</label>
                     <input type="date" id="Datedebut" v-model="newDate.Datedebut" class="form-control" required>
                 </div>
@@ -74,24 +77,27 @@
                     <label for="Datedefin">Date de fin</label>
                     <input type="date" id="Datedefin" v-model="newDate.Datedefin" class="form-control" required>
                 </div>
-                <button type="submit" class="btn btn-success" style="margin-left: 10px; margin-right: 10px;">Ajouter la date</button>
+                <button type="submit" class="btn btn-success" style="margin-left: 10px; margin-right: 10px;">Ajouter la
+                    date</button>
                 <button type="button" class="btn btn-danger" @click="deleteAllDates">Supprimer toutes les dates</button>
             </form>
             <!-- Boucle sur les photo2s pour afficher chaque carte -->
-            <div class="card" v-for="photo2 in photos2" :key="photo2.id" style="width: 200px;">
-                <img :src="getPhotoURL(photo2.Photo)" class="card-img-top" alt="Photo2">
-                <div class="card-body">
-                    <h5 class="card-title">{{ photo2.Nom }} {{ photo2.Prenom }}</h5>
-                    <p class="card-text">
-                        <strong>Email:</strong> {{ photo2.Email }}<br>
-                        <strong>Téléphone:</strong> {{ photo2.Telephone }}<br>
-                        <strong>Vote:</strong> {{ photo2.Vote }}<br>
-                        <strong>Catégorie ID:</strong>
-                        <select @change="changeCategoryStatus(photo2)" v-model="photo2.Categorie_id">
-                            <option v-for="categorie in categories" :key="categorie.id" :value="categorie.id">{{
-                                categorie.Type }}</option>
-                        </select>
-                    </p>
+            <div class="cardflex">
+                <div class="card" v-for="photo2 in photos2" :key="photo2.id" style="width: 200px;">
+                    <img :src="getPhotoURL(photo2.Photo)" class="card-img-top" alt="Photo2">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ photo2.Nom }} {{ photo2.Prenom }}</h5>
+                        <p class="card-text">
+                            <strong>Email:</strong> {{ photo2.Email }}<br>
+                            <strong>Téléphone:</strong> {{ photo2.Telephone }}<br>
+                            <strong>Vote:</strong> {{ photo2.Vote }}<br>
+                            <strong>Catégorie ID:</strong>
+                            <select @change="changeCategoryStatus(photo2)" v-model="photo2.Categorie_id">
+                                <option v-for="categorie in categories" :key="categorie.id" :value="categorie.id">{{
+                                    categorie.Type }}</option>
+                            </select>
+                        </p>
+                    </div>
                 </div>
             </div>
             <div>
@@ -165,19 +171,19 @@ export default {
     },
     methods: {
         deleteAllDates() {
-    // Envoyez une requête à l'API pour supprimer toutes les dates
-    axios.delete('https://studiophotov2-d849983bf69e.herokuapp.com/date')
-      .then(response => {
-        console.log(response.data);
-        this.updateMessage = "Toutes les dates ont été supprimées avec succès";
-        alert("Toutes les dates ont été supprimées avec succès");
-        // Rechargez les données des dates si nécessaire
-      })
-      .catch(error => {
-        console.error(error);
-        this.updateMessage = "Erreur lors de la suppression de toutes les dates";
-      });
-  },
+            // Envoyez une requête à l'API pour supprimer toutes les dates
+            axios.delete('https://studiophotov2-d849983bf69e.herokuapp.com/date')
+                .then(response => {
+                    console.log(response.data);
+                    this.updateMessage = "Toutes les dates ont été supprimées avec succès";
+                    alert("Toutes les dates ont été supprimées avec succès");
+                    // Rechargez les données des dates si nécessaire
+                })
+                .catch(error => {
+                    console.error(error);
+                    this.updateMessage = "Erreur lors de la suppression de toutes les dates";
+                });
+        },
         addDate() {
             // Envoi de la nouvelle date à l'API
             axios.post('https://studiophotov2-d849983bf69e.herokuapp.com/date', this.newDate)
@@ -292,34 +298,86 @@ export default {
 </script>
 
 <style scoped>
+@media only screen and (min-width: 768px) {
 
-.date {
-    width: 50%;
-}
-.collaps {
-    display: flex;
-    flex-direction: column;
-    ;
-    width: 70%;
-    margin-left: auto;
-    margin-right: auto;
+    .card {
+        margin:10px;
+    }
+    .date {
+        width: 50%;
+    }
+
+    .collaps {
+        display: flex;
+        flex-direction: column;
+        ;
+        width: 70%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .collaps2 {
+        display: flex;
+        flex-direction: column;
+        ;
+        width: 70%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    img {
+        max-width: 200px;
+        height: auto;
+    }
+
+    .pleft {
+        margin-left: 5px;
+    }
+
+    .cardflex {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+    }
 }
 
-.collaps2 {
-    display: flex;
-    flex-direction: column;
-    ;
-    width: 70%;
-    margin-left: auto;
-    margin-right: auto;
-}
+@media only screen and (max-width: 767px) {
+    .date {
+        width: 90%;
+    }
 
-img {
-    max-width: 200px;
-    height: auto;
-}
+    h1 {
+        font-size: 20px;
+    }
 
-.pleft {
-    margin-left: 5px;
-}
-</style>
+    h5 {
+        font-size: 15px;
+    }
+
+    .collaps {
+        display: flex;
+        flex-direction: column;
+        ;
+        width: 70%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .collaps2 {
+        display: flex;
+        flex-direction: column;
+        ;
+        width: 70%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    img {
+        max-width: 200px;
+        height: auto;
+    }
+
+    .pleft {
+        margin-left: 5px;
+    }
+}</style>

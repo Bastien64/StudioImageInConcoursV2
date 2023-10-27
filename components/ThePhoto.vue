@@ -193,10 +193,14 @@ export default {
     border-radius: 5px;
   }
 
-
+ .row {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center; }
   .card {
     border: none !important;
-    margin-top: 10px;
+    margin-top: 20px;
     width: auto;
     height: auto;
   }
@@ -281,6 +285,14 @@ export default {
 }
 
 @media only screen and (max-width: 767px) {
+
+  .row {
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
   .card {
     border: none !important;
     margin-top: 10px;
