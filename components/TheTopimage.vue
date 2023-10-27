@@ -36,8 +36,8 @@
 
 @media only screen and (max-width: 767px) {
     img{
-    width: 0vw;
-    margin-top: 15%;
+    width: 100vw;
+    margin-top: 20%;
 }
 }
 
