@@ -220,7 +220,7 @@ export default {
                 });
         },
         deletePhoto(photoId) {
-            axios.delete(`https://www.studioimageflask.com/photo/delete/${photoId}`)
+            axios.delete(`https://studiophotov2-d849983bf69e.herokuapp.com/photo/delete/${photoId}`)
 
                 .then(response => {
                     const index = this.photos.findIndex(photo => photo.id === photoId);
