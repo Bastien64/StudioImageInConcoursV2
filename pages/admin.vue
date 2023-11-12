@@ -35,7 +35,7 @@
   },
     beforeMount() {
         this.loading = true;
-        axios.get('https://www.studioimageflask.com/admin')
+        axios.get('https://studiophotov2-d849983bf69e.herokuapp.com/admin')
             .then(response => {
                 this.loading = false;
                 this.admin = response.data[0];

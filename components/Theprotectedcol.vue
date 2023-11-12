@@ -148,7 +148,7 @@ export default {
             .catch(error => {
                 console.error('Erreur lors de la récupération des catégories :', error);
             });
-        axios.get('https://www.studioimageflask.com/photo')
+        axios.get('https://studiophotov2-d849983bf69e.herokuapp.com/photo')
             .then(response => {
                 this.loading = false;
                 this.photos = response.data;
